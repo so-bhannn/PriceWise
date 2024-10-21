@@ -1,0 +1,9 @@
+{% extends "pricewise/home.html" %}
+{% block content %}
+    <h2>Search Results</h2>
+    <ul>
+        {% for product in products %}
+            <li>{{ product.name }} - ${{ product.price }}</li>
+        {% endfor %}
+    </ul>
+{% endblock %}
