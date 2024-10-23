@@ -1,7 +1,11 @@
-{% extends "pricwise/home.html" %}
+{% extends "pricewise/home.html" %}
 {% block content %}
-    <h2>{{ product.name }}</h2>
-    <p>{{ product.description }}</p>
-    <p>Price: ${{ product.price }}</p>
-    <p>Rating: {{ product.rating }}</p>
+<div style="border: 1px solid #ddd; padding: 20px; margin: 20px 0; border-radius: 5px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);">
+        <h2>{{ product.name }}</h2>
+        <p>{{ product.description }}</p>
+        <p>Price: ₹{{ product.price }}</p><br>
+        <button onclick=location.href="{{product.url}}">Buy Product</button><br>
+        <button onclick=location.href='{% url "products:add_to_watchlist" product.product_id %}'>Add to watchlist</button>
+</div>
+
 {% endblock %}

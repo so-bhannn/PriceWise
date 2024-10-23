@@ -1,11 +1,12 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
+{% extends "pricewise/home.html" %}
+{% block content %}
+    {% if messages %}
+    <ul style="color: red;">
+        {% for message in messages %}
+            <li>{{ message }}</li>
+        {% endfor %}
+    </ul>
+    {% endif %}
     <form method="post">
         {% csrf_token %}
         <label>Email:</label>
@@ -16,5 +17,4 @@
         <br>
         <button type="submit">Login</button>
     </form>
-</body>
-</html>
+    {% endblock content %}

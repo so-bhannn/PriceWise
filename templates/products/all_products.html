@@ -1,0 +1,12 @@
+{% extends "pricewise/home.html" %}
+{% block content %}
+    <h2>All Products</h2>
+    {% for product in products %}
+    <div>
+        <h3>{{ product.name }}</h3>
+        <p>{{ product.description }}</p>
+        <p>{{ product.price }}</p>
+        <a href="{{ product.url }}">Buy Now</a>
+    </div>
+    {% endfor %}
+{% endblock %}
