@@ -1,9 +1,16 @@
 {% extends "pricewise/home.html" %}
 {% block content %}
     <h2>Search Results</h2>
+    {% if products %}
     <ul>
         {% for product in products %}
-            <li>{{ product.name }} - ${{ product.price }}</li>
+        <li style="display:flex; justify-content:space-between; border: 1px solid #ddd; padding: 20px; margin: 20px 50px; border-radius: 5px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);" onclick="location.href='{% url 'products:view_product' product.product_id %}'">
+            {{ product.name }} - ₹{{ product.price }}
+            <button onclick="event.stopPropagation(); location.href='{{ product.url }}'">Buy Product</button>
+        </li>
         {% endfor %}
     </ul>
+    {% else %}
+    <p style="color:red;">No products found.</p>
+    {% endif %}
 {% endblock %}
