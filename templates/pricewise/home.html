@@ -7,15 +7,25 @@
 </head>
 <body style="background-color: #1e1e1e; color: #ffffff;">
     <nav>
-        <button onclick=location.href="{% url "home" %}">Home</button>
+        <button onclick="location.href='{% url 'home' %}'">Home</button>
         {% if user.is_authenticated %}
-            <button onclick=location.href='{% url "auth:logout" %}'>Logout</button>
-            <p style='color:green;'>Welcome! {{user.username}}</p>
+            <button onclick="location.href='{% url 'accounts:logout' %}'">Logout</button>
+            <p style="color:green;">Welcome! {{ user.username }}</p>
         {% else %}
-            <button onclick=location.href='{% url "auth:login" %}'>Login</button>
-            <button onclick=location.href='{% url "auth:register" %}'>Register</button>
+            <button onclick="location.href='{% url 'accounts:login' %}'">Login</button>
+            <button onclick="location.href='{% url 'accounts:register' %}'">Register</button>
         {% endif %}
+        <br>
     </nav>
+
+    {% if messages %}
+        <script>
+            {% for message in messages %}
+                alert("{{ message|escapejs }}");
+            {% endfor %}
+        </script>
+    {% endif %}
+
     {% block content %}
     <header>
         <h1>PriceWise</h1>
@@ -24,12 +34,14 @@
 
     <button><a href="{% url 'products:add_product' %}">Add Product</a></button>
     <button><a href="{% url 'products:all_products' %}">All Products</a></button>
+    <button><a href="{% url 'products:create_watchlist' %}">Create Watchlist</a></button>
+    <button><a href="{% url 'products:all_watchlists' %}">All Watchlists</a></button>
 
     <div id="search">
-        <form method='get' action="{% url 'products:search_products' %}">
+        <form method="get" action="{% url 'products:search_products' %}">
             <input type="text" name="q" placeholder="Search for products...">
             <button type="submit">Search</button>
-    </form>
+        </form>
     </div>
 
     <div id="features">

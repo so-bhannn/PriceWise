@@ -1,8 +1,9 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
-from .models import Product, PriceAlert
+from .models import Product, WatchList, WatchListItem
 from django.db.models import Q
 from django.contrib import messages
+from django.urls import reverse
 
 
 def add_product(request):
@@ -44,27 +45,68 @@ def search_products(request):
     return render(request, 'products/search_results.html', {'products': products})
 
 @login_required
-def add_to_watchlist(request, product_id):
-    product = get_object_or_404(Product, product_id=product_id)
-    request.user.watchlist.add(product)
-    return render()
+def create_watchlist(request):
+    if request.method=='POST':
+        name=request.POST.get('name')
+        watchlist = WatchList(user=request.user, name=name)
+        watchlist.save()
+        messages.success(request, 'Watchlist created successfully!')
+        return redirect(reverse('home'))
+    return render(request, 'products/create_watchlist.html')
 
 @login_required
-def set_price_alert(request, product_id):
-    product = get_object_or_404(Product, id=product_id)
-    price_threshold = request.POST.get('price_threshold')
-    if price_threshold is not None and price_threshold.isdigit():
-        price_threshold = float(price_threshold)
-        PriceAlert.objects.create(
-            user=request.user,
-            product=product,
-            price_threshold=price_threshold
-            )
-    else:
-        return redirect('watchlist')
-    
-    return redirect('watchlist')
+def add_to_watchlist(request):
+    if request.method=='POST':
+        product_id=request.POST.get('product_id')
+        product=get_object_or_404(Product, product_id=product_id)
+        watchlist_id=request.POST.get('watchlist_id')
+        watchlist=get_object_or_404(WatchList, watchlist_id=watchlist_id)
+        try:
+            if product:
+                watchlist_item=WatchListItem(watchlist=watchlist, product=product)
+                watchlist_item.save()
+                messages.success(request, 'Product added to watchlist successfully.')
+        except Exception as e:
+            messages.error(request, f'{e} An error occured while adding the product.')
+            return redirect('products:view_watchlist', watchlist_id=watchlist_id)
+    return redirect('products:view_product', product=product)
+
+@login_required
+def all_watchlists(request):
+    watchlists= WatchList.objects.all()
+    return render(request, 'products/all_watchlists.html', {'watchlists': watchlists})
+
+@login_required
+def view_watchlist(request,watchlist_id):
+    watchlist=get_object_or_404(WatchList, watchlist_id=watchlist_id)
+    watchlist_items=watchlist.items.all()
+    return render(request, 'products/view_watchlist.html', {'watchlist': watchlist, 'watchlist_items':watchlist_items})
+
+@login_required
+def remove_item(request):
+    product_id=request.POST.get('item_id')
+    watchlist_item = get_object_or_404(WatchListItem, product_id=product_id)
+    watchlist_id = watchlist_item.watchlist_id
+    try:
+        watchlist_item.delete()
+        messages.success(request, 'Item removed from watchlist successfully.')
+    except Exception as e:
+        messages.error(request, f"Failed to remove item. {e}")
+    return redirect('products:view_watchlist', watchlist_id=watchlist_id)
+
+@login_required
+def remove_watchlist(request):
+    watchlist_id=request.POST.get('watchlist_id')
+    watchlist = get_object_or_404(WatchList, watchlist_id=watchlist_id)
+    try:
+        watchlist.delete()
+        messages.success(request, 'Watchlist removed from watchlist successfully.')
+    except Exception as e:
+        messages.error(request, f"Failed to remove watchlist. {e}")
+    return redirect('products:all_watchlists')
+
 
 def all_products(request):
     products = Product.objects.all()
-    return render(request, 'products/all_products.html', {'products': products})
+    watchlists=WatchList.objects.all()
+    return render(request, 'products/all_products.html', {'products': products, 'watchlists':watchlists})

@@ -1,0 +1,9 @@
+{% extends "pricewise/home.html" %}
+{% block content %}
+    <form method="post">
+        {% csrf_token %}
+        <label for="name">Watchlist Name</label><br>
+        <input type="text" id="name" name="name" required>
+        <button type="submit">Create Watchlist</button>
+    </form>
+{% endblock content %}

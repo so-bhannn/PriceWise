@@ -1,0 +1,20 @@
+{% extends "pricewise/home.html" %}
+{% block content %}
+{% if watchlists %}
+    {% for watchlist in watchlists %}
+    <div>
+        <li style="display:flex; justify-content:space-between; border: 1px solid #ddd; padding: 20px; margin: 20px 50px; border-radius: 5px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);" onclick="location.href='{% url 'products:view_watchlist' watchlist.watchlist_id %}'">
+            <span>{{ watchlist.name }}</span>
+            <form method='post' action="{% url "products:remove_watchlist" %}">
+                {% csrf_token %}
+                <input type="hidden" name="watchlist_id" value='{{ watchlist.watchlist_id }}'>
+                <button type="submit" onclick="event.stopPropagation()">Remove</button>
+            </form>
+        </li>
+    </div>
+    {% endfor %}
+{% else %}
+<p style="color:red;">No Watchlists</p>
+<button onclick="event.stopPropagation(); location.href='{% url "products:create_watchlist" %}'">Create Watchlist</button>
+{% endif %}
+{% endblock content %}

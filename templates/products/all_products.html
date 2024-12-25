@@ -3,10 +3,20 @@
     <h2>All Products</h2>
     {% for product in products %}
     <div>
-        <h3>{{ product.name }}</h3>
-        <p>{{ product.description }}</p>
-        <p>{{ product.price }}</p>
-        <a href="{{ product.url }}">Buy Now</a>
+        <li style="display:flex; justify-content:space-between; border: 1px solid #ddd; padding: 20px; margin: 20px 50px; border-radius: 5px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);">
+            <span onclick="location.href='{% url 'products:view_product' product.product_id %}'">{{ product.name }} - ₹{{ product.price }}</span>
+            <button onclick="event.stopPropagation(); location.href='{{ product.url }}'">Buy Product</button>
+            <form method="post" action="{% url 'products:add_to_watchlist' %}" style="display:inline;">
+                {% csrf_token %}
+                <input type="hidden" name="product_id" value="{{ product.product_id }}">
+                <select name="watchlist_id">
+                    {% for watchlist in watchlists %}
+                        <option value="{{ watchlist.watchlist_id }}">{{ watchlist.name }}</option>
+                    {% endfor %}
+                </select>
+                <button type="submit" onclick="event.stopPropagation();">Add to Watchlist</button>
+            </form>
+        </li>
     </div>
     {% endfor %}
 {% endblock %}
