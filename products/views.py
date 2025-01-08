@@ -80,7 +80,8 @@ def all_watchlists(request):
 def view_watchlist(request,watchlist_id):
     watchlist=get_object_or_404(WatchList, watchlist_id=watchlist_id)
     watchlist_items=watchlist.items.all()
-    return render(request, 'products/view_watchlist.html', {'watchlist': watchlist, 'watchlist_items':watchlist_items})
+    watchlists= WatchList.objects.all()
+    return render(request, 'products/view_watchlist.html', {'watchlist': watchlist, 'watchlist_items':watchlist_items, 'watchlists':watchlists})
 
 @login_required
 def remove_item(request):
@@ -110,3 +111,6 @@ def all_products(request):
     products = Product.objects.all()
     watchlists=WatchList.objects.all()
     return render(request, 'products/all_products.html', {'products': products, 'watchlists':watchlists})
+
+def tracked_items(request):
+    pass

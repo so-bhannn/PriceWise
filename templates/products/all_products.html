@@ -4,7 +4,7 @@
     {% for product in products %}
     <div>
         <li style="display:flex; justify-content:space-between; border: 1px solid #ddd; padding: 20px; margin: 20px 50px; border-radius: 5px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);">
-            <span onclick="location.href='{% url 'products:view_product' product.product_id %}'">{{ product.name }} - ₹{{ product.price }}</span>
+            <span onclick="location.href='{% url 'products:view_product' product.product_id %}'">{{ product.name }} - ₹{{ product.current_price }}</span>
             <button onclick="event.stopPropagation(); location.href='{{ product.url }}'">Buy Product</button>
             <form method="post" action="{% url 'products:add_to_watchlist' %}" style="display:inline;">
                 {% csrf_token %}
