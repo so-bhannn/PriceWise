@@ -102,10 +102,10 @@
         <hr>
     </div>
     <div class="watchlist-buttons">
-        <button class="watchlist-button" onclick="event.stopPropagation(); location.href='{% url "products:create_watchlist" %}'">+ Create Watchlist</button>
+        <button class="watchlist-button" onclick="event.stopPropagation(); location.href='{% url "watchlist:create_watchlist" %}'">+ Create Watchlist</button>
         {% if watchlists %}
         {% for watchlist in watchlists %}
-            <button class="watchlist-button" onclick="event.stopPropagation(); location.href='{% url "products:view_watchlist" watchlist.watchlist_id %}'">{{watchlist.name}} </button>
+            <button class="watchlist-button" onclick="event.stopPropagation(); location.href='{% url "watchlist:view_watchlist" watchlist.watchlist_id %}'">{{watchlist.name}} </button>
         {% endfor %}
         {% endif %}
         <button class="watchlist-button" onclick="event.stopPropagation(); location.href='{% url "products:tracked_items" %}'">Tracked items</button>

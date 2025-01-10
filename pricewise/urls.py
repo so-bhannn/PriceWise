@@ -23,4 +23,6 @@ urlpatterns = [
     path('',views.home, name='home'),
     path('accounts/',include('authentication.urls')),
     path('products/',include('products.urls')),
+    path('watchlist/',include('watchlist.urls')),
+    path('tracking/',include('tracking.urls')),
 ]

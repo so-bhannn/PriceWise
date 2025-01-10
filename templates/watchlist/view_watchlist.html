@@ -1,0 +1,71 @@
+{%extends 'watchlist/all_watchlists.html'%}
+{% block table %}
+{% if watchlist_items %}
+<div class='holder'>
+    <h2>{{watchlist.name}}</h2>
+    <form action="{% url "watchlist:remove_watchlist" %}">
+    {% csrf_token %}
+    <input type="hidden" name="watchlist_id" value="{{watchlist.watchlist_id}}">
+    <button class="dlt-button" onclick="event.stopPropagation();"><span class="material-symbols-outlined">delete</span></button>
+    </form>
+</div>
+<table style="width: 100%;border-collapse: collapse;margin-top: 20px;">
+    <tr>
+        <th>Item</th>
+        <th>Price</th>
+        <th>Status</th>
+        <th></th>
+    </tr>
+    {% for item in watchlist_items %}
+    <tr class='item-row'>
+        <td>{{item.product.name}}</td>
+        <td class="price">₹{{item.product.current_price}}</td>
+        <td class="status {{item.product_alert.status}}">{{item.product_alert.status}}</td>
+        <td class='remove_item'><form method='post' action="{% url "watchlist:remove_item" %}">
+            {% csrf_token %}
+            <input type="hidden" name="item_id" value="{{ item.product.product_id }}">
+            <button class="dlt-button" onclick="event.stopPropagation();"><span class="material-symbols-outlined">delete</span></button>
+        </form></td>
+    </tr>
+    {% endfor %}
+</table>
+{% else %}
+<p style="color:red;">"Watchlist is empty."</p>
+<button onclick="event.stopPropagation(); location.href='{% url "products:all_products" %}'">Add items</button>
+{% endif %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+{% comment %} <h2>{{watchlist.name}}</h2>
+    {% if watchlist_items %}
+        {% for item in watchlist_items %}
+        <li style="display:flex; justify-content:space-between; border: 1px solid #ddd; padding: 20px; margin: 20px 50px; border-radius: 5px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);"  onclick="location.href='{% url 'products:view_product' item.product.product_id %}'">
+            <span>{{ item.product.name }} - ₹{{ item.product.current_price }}</span>
+            <form method='post' action="{% url "products:remove_item" %}">
+                {% csrf_token %}
+                <input type="hidden" name="item_id" value="{{ item.product.product_id }}">
+                <button onclick="event.stopPropagation();">Remove</button>
+            </form>
+        </li>
+        {% endfor %}
+    {% else %}
+        <p style="color:red;">"Watchlist is empty."</p>
+        <button onclick="event.stopPropagation(); location.href='{% url "products:all_products" %}'">Add items</button>
+    {% endif %} {% endcomment %}
+{% endblock table %}
