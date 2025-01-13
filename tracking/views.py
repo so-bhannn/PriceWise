@@ -3,6 +3,7 @@ from products.models import Product
 from .models import ProductAlert, ProductHistory
 from django.core.mail import send_mail
 from django.contrib.auth.decorators import login_required
+from .services.notify_user import Command
 # Create your views here.
 
 @login_required

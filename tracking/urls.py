@@ -5,5 +5,5 @@ from . import views
 app_name='tracking'
 
 urlpatterns = [
-    path('', views.track, name='tracker')
+    path('send_email/', views.send_email, name='send_email')
 ]
