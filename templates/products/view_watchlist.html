@@ -33,39 +33,4 @@
 <p style="color:red;">"Watchlist is empty."</p>
 <button onclick="event.stopPropagation(); location.href='{% url "products:all_products" %}'">Add items</button>
 {% endif %}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-{% comment %} <h2>{{watchlist.name}}</h2>
-    {% if watchlist_items %}
-        {% for item in watchlist_items %}
-        <li style="display:flex; justify-content:space-between; border: 1px solid #ddd; padding: 20px; margin: 20px 50px; border-radius: 5px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);"  onclick="location.href='{% url 'products:view_product' item.product.product_id %}'">
-            <span>{{ item.product.name }} - ₹{{ item.product.current_price }}</span>
-            <form method='post' action="{% url "products:remove_item" %}">
-                {% csrf_token %}
-                <input type="hidden" name="item_id" value="{{ item.product.product_id }}">
-                <button onclick="event.stopPropagation();">Remove</button>
-            </form>
-        </li>
-        {% endfor %}
-    {% else %}
-        <p style="color:red;">"Watchlist is empty."</p>
-        <button onclick="event.stopPropagation(); location.href='{% url "products:all_products" %}'">Add items</button>
-    {% endif %} {% endcomment %}
 {% endblock table %}

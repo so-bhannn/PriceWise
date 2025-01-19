@@ -25,4 +25,3 @@ class Command(BaseCommand):
         subject = f"Price Alert: {product.name}"
         message = f"The price of {product.name} has dropped to ${price}.\nCheck it here: {product.url}"
         send_mail(subject, message, 'noreply@pricetracker.com', [email])
-

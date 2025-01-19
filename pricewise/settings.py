@@ -26,7 +26,7 @@ SECRET_KEY =config('DJANGO_SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = config('DJANGO_DEBUG', default=False, cast=bool)
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['www.pricewise.store', 'pricewise.store', '15.206.165.26']
 
 
 # Application definition
@@ -135,14 +135,3 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-
-
-#email configuration
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = 'smtp.mailgun.com'
-EMAIL_PORT = 587
-EMAIL_USE_TLS = False
-EMAIL_USE_SSL = False
-EMAIL_HOST_USER = 'postmaster@sandboxc90677b637794ced820061ce8073e422.mailgun.org' 
-EMAIL_HOST_PASSWORD = '0829576ea731c961e97810003a07c042-7113c52e-f8d025cd'
-DEFAULT_FROM_EMAIL = 'support@pricewise.com'

@@ -5,5 +5,6 @@ from . import views
 app_name='tracking'
 
 urlpatterns = [
-    path('send_email/', views.send_email, name='send_email')
+    path('track-product/<str:id>', views.track_product, name='track_product'),
+    path('product-list/', views.product_list, name='product_list'),
 ]

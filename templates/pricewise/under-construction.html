@@ -1,0 +1,39 @@
+{% extends "pricewise/home.html" %}
+{% block style %}
+.container{
+    min-height: 100vh;
+    display: flex;
+    align-items: center; 
+    justify-content: center; 
+    padding: 16px;
+    background-color: white;
+}
+.center-text{
+    text-align: center;
+}
+h1 .my-text-class {
+    font-size: 2.25rem; /* text-4xl */
+    @media (min-width: 768px) { 
+      font-size: 3rem; /* md:text-5xl */
+    }
+    font-weight: bold; /* font-bold */
+    color: black; /* text-black */
+    margin-top: 2rem; /* mt-8 */
+    margin-bottom: 1rem; /* mb-4 */
+  }
+  .my-text{
+    font-size: 1.25rem; /* text-xl */
+    color: #9ca3af; /* text-gray-600 */
+    margin-bottom: 2rem; /* mb-8 */
+    max-width: 28rem; /* max-w-md */
+    margin-left: auto; /* mx-auto */
+    margin-right: auto; /* mx-auto */
+  }
+{% endblock style %}
+{% block content %}
+<img src="" alt="">
+<div class="center-text">
+    <h1 class="my-text-class">Under Construction</h1>
+    <p class="my-text">We are working on this page. Please check back later.</p>
+</div>
+{% endblock content %}

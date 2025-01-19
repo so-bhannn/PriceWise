@@ -1,6 +1,6 @@
 <html>
 <head>
-    <title>Price Tracker</title>
+    <title>PriceWise</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -51,24 +51,63 @@
             display: flex;
             align-items: center;
         }
-        nav p {
-            margin: 0 10px;
-            cursor: pointer;
+        .nav-links {
+            display: flex;
+            list-style: none;
         }
-        nav button {
-            margin: 0 5px;
+        .nav-links li {
+            margin: 0 10px;
+        }
+        .nav-links a {
+            text-decoration: none;
+            color: #333;
+        }
+        .nav-links p {
+            font-size: 1.2em;
+        }
+        .nav-links button {
+            padding: 10px 20px;
+            border: none;
             background-color: #333;
             color: #fff;
-            border-radius: 25px;
-            border: none;
-            padding: 9px 16px;
-            font-size: 1em;
-            font-family: 'Roboto', sans-serif;
+            border-radius: 4px;
             cursor: pointer;
-            transition: background-color 0.3s, color 0.3s;
         }
-        nav button:hover {
-            background-color:#000;
+        .nav-links button:hover {
+            background-color: #555;
+        }
+        .hamburger {
+            display: none;
+            cursor: pointer;
+        }
+        .hamburger div {
+            width: 25px;
+            height: 3px;
+            background-color: #333;
+            margin: 5px;
+            transition: all 0.3s ease;
+        }
+        @media (max-width: 768px) {
+            nav {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            .nav-links {
+                flex-direction: column;
+                width: 100%;
+                display: none;
+            }
+            .nav-links li {
+                width: 100%;
+                text-align: center;
+                margin: 10px 0;
+            }
+            .nav-links.active {
+                display: flex;
+            }
+            .hamburger {
+                display: block;
+            }
         }
         .search-bar {
             display: flex;
@@ -111,7 +150,7 @@
             
         }
         @media (max-width: 768px) {
-            .items {
+            .cards {
                 flex-direction: column;
                 align-items: center;
             }
@@ -152,17 +191,21 @@
 <body>
     <nav>
         <a href="{% url "home" %}"><h3>PriceWise</h3></a>
-            <div>
-                <p>Dashboard</p>
-                <a href="{% url 'watchlist:all_watchlists' %}"><p>Watchlist</p></a>
-                <p>Notifications</p>
-                
-            </div>
+        <div class="hamburger" onclick="toggleMenu()">
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
+            <ul class="nav-links">
+                <li><a href="{% url "under_construction" %}"><p>Dashboard</p></a></li>
+                <li><a href="{% url 'watchlist:all_watchlists' %}"><p>Watchlist</p></a></li>
+                <li><a href="{% url "under_construction" %}"><p>Notifications</p></a></li>
             {% if user.is_authenticated %}
-            <a href="#"><p>{{user.username}} </p></a>
+            <li><a href="{% url "under_construction" %}"><p>{{user.username}}</p></a></li>
             {% else %}
-            <button onclick="location.href='{% url "accounts:login" %}'">Login</button>
+            <li><button onclick="location.href='{% url "accounts:login" %}'">Login</button></li>
             {% endif %}
+            </ul>
         </nav>
         {% if messages %}
         <script>
@@ -174,13 +217,13 @@
         <div class="container">
         {% block content %}
         <header>
-            <button onclick="location.href='{% url 'tracking:send_email'%}'">send email</button>
             <h1>Track Prices, Save Money</h1>
             <p>Monitor your favorite products across multiple stores and never miss a deal.</p>
             <div class="search-bar">
-                <form action="{% url 'products:search_products' %}" method="get"></form>
+                <form action="{% url 'products:search_products' %}" method="get">
                 <input type="text" placeholder="Enter product URL">
-                <button>Track</button>
+                <button type="submit">Track</button>
+            </form>
             </div>
         </header>
         <div class="card-container">
@@ -203,7 +246,7 @@
             </div>
         </div>
         {% endblock content %}
-    </div>
+        </div>
         <footer>
             <a href="#"><svg xmlns="http://www.w3.org/2000/svg" width="1.5em" height="1.5em" fill="currentColor" class="bi bi-facebook" viewBox="0 0 16 16">
                     <path d="M16 8.049c0-4.446-3.582-8.05-8-8.05C3.58 0-.002 3.603-.002 8.05c0 4.017 2.926 7.347 6.75 7.951v-5.625h-2.03V8.05H6.75V6.275c0-2.017 1.195-3.131 3.022-3.131.876 0 1.791.157 1.791.157v1.98h-1.009c-.993 0-1.303.621-1.303 1.258v1.51h2.218l-.354 2.326H9.25V16c3.824-.604 6.75-3.934 6.75-7.951"/>
@@ -219,5 +262,10 @@
                 <a href="#">About</a>
             </p>
         </footer>
+        <script>
+            function toggleMenu() {
+                document.querySelector('.nav-links').classList.toggle('active');
+            }
+        </script>
 </body>
 </html>
