@@ -37,26 +37,23 @@
         }
         nav {
             display: flex;
-            justify-content: space-between;
             align-items: center;
-            padding: 10px;
-            margin:0 25px;
+            justify-content: space-between;
+            padding: 16px 0;
+            margin: 0 16px;
             border-bottom: 1px solid #ddd;
         }
         nav h3 {
-            margin: 5;
             font-size:1.6em;
-        }
-        nav div {
-            display: flex;
-            align-items: center;
+            margin:0;
         }
         .nav-links {
+            flex-grow: 0.1;
             display: flex;
+            justify-content: space-between;
+            align-items: center;
             list-style: none;
-        }
-        .nav-links li {
-            margin: 0 10px;
+            margin: 0;
         }
         .nav-links a {
             text-decoration: none;
@@ -64,6 +61,7 @@
         }
         .nav-links p {
             font-size: 1.2em;
+            margin: 0;
         }
         .nav-links button {
             padding: 10px 20px;
@@ -129,12 +127,9 @@
             cursor: pointer;
         }
         footer {
-            position: absolute;
             bottom: 0;
             width:100%;
             text-align: center;
-            padding: 20px 0;
-            margin-top: 40px;
         }
         footer p {
             margin: 5px 0;
@@ -202,6 +197,7 @@
                 <li><a href="{% url "under_construction" %}"><p>Notifications</p></a></li>
             {% if user.is_authenticated %}
             <li><a href="{% url "under_construction" %}"><p>{{user.username}}</p></a></li>
+            <li><button onclick="location.href='{% url "accounts:logout" %}'">Logout</button></li>
             {% else %}
             <li><button onclick="location.href='{% url "accounts:login" %}'">Login</button></li>
             {% endif %}
@@ -225,7 +221,8 @@
                 <button type="submit">Track</button>
             </form>
             </div>
-        </header>
+            <button onclick="location.href='{% url "tracking:send_email" %}'">Send Email</button>
+            </header>
         <div class="card-container">
             <div class="cards">
                 <div class="card">

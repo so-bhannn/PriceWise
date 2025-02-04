@@ -3,13 +3,21 @@ from django.core.exceptions import ValidationError
 from .models import User
 
 class RegistrationForm(forms.ModelForm):
-    username = forms.CharField(label='Username')
-    password1 = forms.CharField(label='Password', widget=forms.PasswordInput)
-    password2 = forms.CharField(label='Password confirmation', widget=forms.PasswordInput)
+    username = forms.CharField(label=None,required=True, widget=forms.TextInput(attrs={'placeholder': 'Enter username...'}))
+    email = forms.EmailField(label=None, required=True, widget=forms.EmailInput(attrs={'placeholder': 'Enter email...'}))
+    password1 = forms.CharField(label=None,widget=forms.PasswordInput(attrs={'placeholder': 'Enter password...'}))
+    password2 = forms.CharField(label=None, widget=forms.PasswordInput(attrs={'placeholder': 'Confirm password...'}))
+
 
     class Meta:
         model = User
         fields = ('username', 'email')
+        labels = {
+            'username': None,
+            'email': None,
+            'password1': None,
+            'password2': None,
+        }
 
     def clean_username(self):
         username = self.cleaned_data.get('username')
@@ -30,3 +38,38 @@ class RegistrationForm(forms.ModelForm):
         if commit:
             user.save()
         return user
+    
+class LoginForm(forms.Form):
+    username =forms.CharField(
+        label=None,
+        required=True,
+        widget=forms.TextInput(attrs={
+            'placeholder': 'Enter username...'
+        })
+    )
+    password=forms.CharField(
+        label=None,
+        required=True,
+        widget=forms.PasswordInput(attrs={
+            'placeholder': 'Enter password...'
+        })
+    )
+
+    class Meta:
+        model= User
+        fields = ('username', 'password')
+        labels ={
+            'username': None,
+            'password': None,
+        }
+
+    def clean(self):
+        username =self.cleaned_data.get('username')
+        password =self.cleaned_data.get('password')
+        if not User.objects.filter(username=username).exists():
+            raise ValidationError("A user with that username does not exist.")
+        user = User.objects.get(username=username)
+        if not user.check_password(password):
+            raise ValidationError("Incorrect password.")
+        return self.cleaned_data
+                        

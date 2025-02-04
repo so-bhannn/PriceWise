@@ -7,4 +7,5 @@ app_name='tracking'
 urlpatterns = [
     path('track-product/<str:id>', views.track_product, name='track_product'),
     path('product-list/', views.product_list, name='product_list'),
+    path('send-email/', views.send_email, name='send_email'),
 ]

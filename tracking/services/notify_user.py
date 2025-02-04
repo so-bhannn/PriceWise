@@ -2,7 +2,6 @@ from django.core.management.base import BaseCommand
 from django.core.mail import send_mail
 from tracking.models import Product, ProductHistory, ProductAlert
 from .utils import PriceTracker
-import requests
 
 class Command(BaseCommand):
     help = "Update product prices and notify users if target price is met"
@@ -24,4 +23,4 @@ class Command(BaseCommand):
     def send_notification(self, email, product, price):
         subject = f"Price Alert: {product.name}"
         message = f"The price of {product.name} has dropped to ${price}.\nCheck it here: {product.url}"
-        send_mail(subject, message, 'noreply@pricetracker.com', [email])
+        send_mail(subject, message, 'noreply@pricewise.store', [email])

@@ -23,3 +23,8 @@ def product_list(request):
         'products': products,
         'tracked_products': tracked_products,
     })
+
+@login_required
+def send_email(request):
+    email= request.user.email
+    send_email('Email Testing', 'This is a test email from pricewise.store', 'noreply@pricewise.store', [email])
